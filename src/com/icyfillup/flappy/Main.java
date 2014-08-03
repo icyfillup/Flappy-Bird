@@ -1,5 +1,7 @@
 package com.icyfillup.flappy;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
@@ -22,6 +24,14 @@ public class Main implements Runnable
 		thread.start();
 	}
 	
+	private void init()
+	{
+		String version = glGetString(GL_VERSION);
+		System.out.println("OpenGL: " + version);
+		
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	
 	public void run()
 	{
 			try
@@ -36,11 +46,20 @@ public class Main implements Runnable
 			{
 				e.printStackTrace();
 			}
+			
+			init();
+			
 		while (running)
 		{
+			render();
 			Display.update();
 			if (Display.isCloseRequested()) running = false;
 		}
+	}
+	
+	private void render()
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 	
 	public static void main(String[] args)
