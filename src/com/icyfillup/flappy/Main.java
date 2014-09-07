@@ -1,12 +1,17 @@
 package com.icyfillup.flappy;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+
+import com.icyfillup.flappy.util.ShaderUtils;
+
 
 public class Main implements Runnable
 {
@@ -49,6 +54,12 @@ public class Main implements Runnable
 			
 			init();
 			
+			int vao = glGenVertexArrays();
+			glBindVertexArray(vao);
+			
+			int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
+			glUseProgram(shader);
+			
 		while (running)
 		{
 			render();
@@ -60,6 +71,7 @@ public class Main implements Runnable
 	private void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 	
 	public static void main(String[] args)
